@@ -5,9 +5,18 @@ export interface ILoginForm {
 }
 
 export interface IJoinForm {
+  nickname?: string;
+  email: string;
   user_id: string;
   user_pw: string;
   user_re_pw: string;
-  nickname: string;
-  email?: string;
+}
+
+export interface IFindAccount {
+  email: string;
+}
+
+export interface IChangePassword {
+  user_pw: string;
+  user_re_pw: string;
 }

@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
+import { FieldError } from 'react-hook-form';
 
 const Container = styled.div(({ theme }) => ({
   display: 'flex',
@@ -8,6 +9,7 @@ const Container = styled.div(({ theme }) => ({
   color: theme.color.placeholderColor,
   gap: '0.2rem 0',
   minHeight: '5.6rem',
+  width: '100%',
 }));
 
 const Input = styled.input(() => ({
@@ -19,7 +21,8 @@ const Input = styled.input(() => ({
 interface IInputLabel {
   isValid?: boolean;
 }
-const InputLabel = styled.label<IInputLabel>(({ isValid = false, theme }) => ({
+const InputLabel = styled.label<IInputLabel>(({ isValid, theme }) => ({
+  fontSize: '2rem',
   color: isValid ? theme.color.sitePrimaryBlue : theme.color.placeholderColor,
 }));
 
@@ -41,6 +44,7 @@ const InputWrapper = styled.div(({ theme }) => ({
 
 const InputSuffix = styled.div(({ theme }) => ({
   fill: theme.color.borderOne,
+  fontSize: '2rem',
 }));
 
 const ErrorMessage = styled.div(({ theme }) => ({
@@ -51,9 +55,10 @@ const ErrorMessage = styled.div(({ theme }) => ({
 interface IFieldProps {
   placeholder: string;
   prefix: React.ReactElement;
+  validPrefix: React.ReactElement;
   inputType?: 'text' | 'email' | 'password';
   suffix?: string | React.ReactElement;
-  errorMessage?: string;
+  error?: FieldError;
   isValid?: boolean;
 }
 interface ITextInput {
@@ -65,7 +70,9 @@ const TextInput = forwardRef(({ fieldProps, ...props }: ITextInput, _ref) => {
     <Container>
       <InputWrapper>
         <InputLeft>
-          <InputLabel isValid={fieldProps?.isValid}>{fieldProps?.prefix}</InputLabel>
+          <InputLabel isValid={fieldProps?.isValid}>
+            {fieldProps?.isValid ? fieldProps?.validPrefix : fieldProps?.prefix}
+          </InputLabel>
 
           <Input {...props} type={fieldProps?.inputType} placeholder={fieldProps?.placeholder} />
         </InputLeft>
@@ -73,7 +80,7 @@ const TextInput = forwardRef(({ fieldProps, ...props }: ITextInput, _ref) => {
         <InputSuffix>{fieldProps?.suffix}</InputSuffix>
       </InputWrapper>
 
-      <ErrorMessage>{fieldProps?.errorMessage}</ErrorMessage>
+      <ErrorMessage>{fieldProps?.error?.message}</ErrorMessage>
     </Container>
   );
 });

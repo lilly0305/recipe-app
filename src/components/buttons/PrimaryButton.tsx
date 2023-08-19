@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import styled from '@emotion/styled';
 import { P3M } from '@assets/styles/TextStyles';
 
-const Container = styled.button(({ theme }) => ({
+interface IContainer {
+  custom?: CSSProperties;
+}
+const Container = styled.button<IContainer>(({ theme, custom }) => ({
   position: 'absolute',
   padding: '0.8rem 2rem',
   background: theme.color.sitePrimaryBlue,
@@ -13,15 +16,18 @@ const Container = styled.button(({ theme }) => ({
   left: '50%',
   transform: 'translateX(-50%)',
   color: theme.color.siteWhite,
+  ...custom,
 }));
 
 interface IPrimaryButton {
-  type: 'button' | 'submit';
+  type?: 'button' | 'submit';
   children: string | React.ReactElement;
+  custom?: CSSProperties;
+  form?: string;
 }
-function PrimaryButton({ type, children }: IPrimaryButton) {
+function PrimaryButton({ type = 'button', children, custom, form }: IPrimaryButton) {
   return (
-    <Container type={type}>
+    <Container form={form} type={type} custom={custom}>
       <P3M>{children}</P3M>
     </Container>
   );

@@ -30,6 +30,8 @@ function App() {
           theme={{
             token: {
               colorPrimary: AppTheme.color.sitePrimaryBlue,
+              colorSuccess: AppTheme.color.sitePrimaryBlue,
+              fontFamily: AppTheme.fontFamily.primary,
             },
           }}
         >

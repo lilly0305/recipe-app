@@ -6,7 +6,9 @@ import {
   RiEyeOffLine,
   RiGoogleFill,
   RiKakaoTalkFill,
+  RiLock2Fill,
   RiLockUnlockLine,
+  RiUser5Fill,
   RiUser5Line,
 } from 'react-icons/ri';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -32,6 +34,17 @@ export const LoginBottomWrapper = styled.div(() => ({
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '0.4rem',
+}));
+
+export const LostAccount = styled.button(({ theme }) => ({
+  borderBottom: `1px solid ${theme.color.siteBlack}`,
+  cursor: 'pointer',
+  transition: 'all 0.3s',
+
+  '&:hover': {
+    borderBottom: `1px solid ${theme.color.sitePrimaryBlue}`,
+    color: theme.color.sitePrimaryBlue,
+  },
 }));
 
 export const SnsLoginWrapper = styled.div(({ theme }) => ({
@@ -62,12 +75,15 @@ export const SnsLoginWrapper = styled.div(({ theme }) => ({
   },
 }));
 
-function Login() {
+interface ILogin {
+  handleOpenModal: () => void;
+}
+function Login({ handleOpenModal }: ILogin) {
   const [showPw, setShowPw] = useState(false);
 
   const { handleSubmit, control } = useForm<ILoginForm>({
     resolver: yupResolver(yupLogin),
-    mode: 'onTouched',
+    mode: 'onChange',
     defaultValues: {
       user_id: '',
       user_pw: '',
@@ -88,15 +104,17 @@ function Login() {
       <Controller
         name="user_id"
         control={control}
-        render={({ field, formState: { errors }, fieldState: { invalid } }) => {
+        render={({ field, fieldState: { isDirty, invalid, error } }) => {
           return (
             <TextInput
               {...field}
               fieldProps={{
-                isValid: !invalid,
-                prefix: <RiUser5Line size={20} />,
+                isValid: isDirty && !invalid,
+                prefix: <RiUser5Line />,
+                validPrefix: <RiUser5Fill />,
+
                 placeholder: userIdPlaceholder,
-                errorMessage: errors.user_id?.message,
+                error: error,
               }}
             />
           );
@@ -106,21 +124,23 @@ function Login() {
       <Controller
         name="user_pw"
         control={control}
-        render={({ field, formState: { errors, isDirty } }) => {
+        render={({ field, fieldState: { invalid, error, isDirty } }) => {
           return (
             <TextInput
               {...field}
               fieldProps={{
-                prefix: <RiLockUnlockLine size={20} />,
+                isValid: isDirty && !invalid,
+                prefix: <RiLockUnlockLine />,
+                validPrefix: <RiLock2Fill />,
                 placeholder: userPwPlaceholder,
-                errorMessage: errors.user_pw?.message,
                 inputType: showPw ? 'text' : 'password',
+                error: error,
                 suffix: isDirty ? (
                   <button type="button" onClick={showPwHandler}>
                     {showPw ? (
-                      <RiEyeFill size={20} fill={AppTheme.color.sitePrimaryBlue} />
+                      <RiEyeFill fill={AppTheme.color.sitePrimaryBlue} />
                     ) : (
-                      <RiEyeOffLine size={20} fill={AppTheme.color.borderOne} />
+                      <RiEyeOffLine fill={AppTheme.color.borderOne} />
                     )}
                   </button>
                 ) : undefined,
@@ -139,7 +159,9 @@ function Login() {
           }}
         />
 
-        <p>계정을 잃어버리셨나요?</p>
+        <LostAccount type="button" onClick={handleOpenModal}>
+          계정을 잃어버리셨나요?
+        </LostAccount>
       </LoginBottomWrapper>
 
       <SnsLoginWrapper>

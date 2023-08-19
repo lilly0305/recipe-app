@@ -31,6 +31,9 @@ export const AppTheme: Theme = {
   shadow: {
     primary: '1rem 1rem 0.5rem rgba(0, 0, 0, 10%)',
   },
+  fontFamily: {
+    primary: '"SUIT Variable", sans-serif',
+  },
 };
 
 export const LIGHT_THEME = {

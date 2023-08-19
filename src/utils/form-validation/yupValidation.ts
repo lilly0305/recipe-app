@@ -7,6 +7,8 @@ import {
   wrongUserIdErrorMessage,
   WrongUserRePwErrorMessage,
   userRePwErrorMessage,
+  wrongEmailErrorMessage,
+  emailErrorMessage,
 } from './formErrorMessage';
 
 const USER_ID_REGEX = /(?=.*\d)(?=.*[a-z]).{6,}/;
@@ -31,5 +33,18 @@ export const yupJoin = Yup.object().shape({
   user_re_pw: Yup.string()
     .required(userRePwErrorMessage)
     .oneOf([Yup.ref('user_pw')], WrongUserRePwErrorMessage),
-  nickname: Yup.string().required(userIdErrorMessage),
+  email: Yup.string().required(emailErrorMessage).email(wrongEmailErrorMessage),
+});
+
+export const yupFindAccount = Yup.object().shape({
+  email: Yup.string().required(emailErrorMessage).email(wrongEmailErrorMessage),
+});
+
+export const yupChangePassword = Yup.object().shape({
+  user_pw: Yup.string()
+    .required(userPwErrorMessage)
+    .matches(PASSWORD_REGEX, WrongUserPwErrorMessage),
+  user_re_pw: Yup.string()
+    .required(userRePwErrorMessage)
+    .oneOf([Yup.ref('user_pw')], WrongUserRePwErrorMessage),
 });

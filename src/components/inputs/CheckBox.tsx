@@ -12,6 +12,10 @@ const CheckBoxContainer = styled.div(() => ({
   },
 }));
 
+const Label = styled.label(() => ({
+  cursor: 'pointer',
+}));
+
 interface IFieldProps {
   label: string;
 }
@@ -30,7 +34,7 @@ const CheckBox = forwardRef(({ fieldProps, ...props }: ICheckbox, _ref) => {
 
       {props.value ? <RiCheckboxFill size={20} /> : <RiCheckboxBlankLine size={20} />}
 
-      <label htmlFor={props.name}>{fieldProps?.label}</label>
+      <Label htmlFor={props.name}>{fieldProps?.label}</Label>
     </CheckBoxContainer>
   );
 });

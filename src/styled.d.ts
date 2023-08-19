@@ -31,5 +31,8 @@ declare module '@emotion/react' {
     shadow: {
       primary: string;
     };
+    fontFamily: {
+      primary: string;
+    };
   }
 }
