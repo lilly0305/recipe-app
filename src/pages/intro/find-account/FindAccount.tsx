@@ -21,7 +21,6 @@ const Container = styled.div(() => ({
 export const FormContainer = styled.div(() => ({
   maxWidth: '50rem',
   minWidth: '36rem',
-  marginBottom: '5rem',
 
   [mq('desktop')]: {
     minWidth: '50rem',

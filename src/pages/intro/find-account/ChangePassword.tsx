@@ -5,6 +5,8 @@ import { RiEyeFill, RiEyeOffLine, RiLock2Fill, RiLockUnlockLine } from 'react-ic
 import { Button } from 'antd';
 import styled from '@emotion/styled';
 
+import { H6, P3M } from '@assets/styles/TextStyles';
+import { CommonMemoContainer } from '@assets/styles/ContainerStyles';
 import { TextInput } from '@components/inputs';
 import { IChangePassword } from '@utils/form-validation/FormInterfaces';
 import { yupChangePassword } from '@utils/form-validation/yupValidation';
@@ -17,6 +19,19 @@ const Form = styled.form(() => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
+}));
+
+const ButtonWrapper = styled.div(() => ({
+  marginTop: '5rem',
+}));
+
+const FoundId = styled(H6)(({ theme }) => ({
+  marginBottom: '3rem',
+
+  '&>strong': {
+    fontWeight: theme.fontWeight.extraBold,
+    color: theme.color.sitePrimaryBlue,
+  },
 }));
 
 interface IChangePasswordProps {
@@ -42,6 +57,7 @@ function ChangePassword({ nextStep, prevStep }: IChangePasswordProps) {
 
   const onSubmit: SubmitHandler<IChangePassword> = useCallback((data) => {
     console.log(data);
+    nextStep();
   }, []);
 
   const showPwHandler = useCallback((type: string) => {
@@ -50,75 +66,82 @@ function ChangePassword({ nextStep, prevStep }: IChangePasswordProps) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormContainer>
-        <Controller
-          name="user_pw"
-          control={control}
-          render={({ field, fieldState: { invalid, error, isDirty } }) => {
-            return (
-              <TextInput
-                {...field}
-                fieldProps={{
-                  isValid: isDirty && !invalid,
-                  prefix: <RiLockUnlockLine />,
-                  validPrefix: <RiLock2Fill />,
-                  placeholder: userPwPlaceholder,
-                  error: error,
-                  inputType: showPw.pw ? 'text' : 'password',
-                  suffix: isDirty ? (
-                    <button type="button" onClick={() => showPwHandler('pw')}>
-                      {showPw.pw ? (
-                        <RiEyeFill fill={AppTheme.color.sitePrimaryBlue} />
-                      ) : (
-                        <RiEyeOffLine fill={AppTheme.color.borderOne} />
-                      )}
-                    </button>
-                  ) : undefined,
-                }}
-              />
-            );
-          }}
-        />
+      <CommonMemoContainer>
+        <FormContainer>
+          <FoundId>
+            해당 이메일로 가입되 아이디는 <strong>yhk0305</strong> 입니다.
+            <P3M>비밀번호를 새롭게 설정하세요.</P3M>
+          </FoundId>
 
-        <Controller
-          name="user_re_pw"
-          control={control}
-          render={({ field, fieldState: { invalid, error, isDirty } }) => {
-            return (
-              <TextInput
-                {...field}
-                fieldProps={{
-                  isValid: isDirty && !invalid,
-                  prefix: <RiLockUnlockLine />,
-                  validPrefix: <RiLock2Fill />,
-                  placeholder: userRePwPlaceholder,
-                  error: error,
-                  inputType: showPw.re_pw ? 'text' : 'password',
-                  suffix: isDirty ? (
-                    <button type="button" onClick={() => showPwHandler('re_pw')}>
-                      {showPw.re_pw ? (
-                        <RiEyeFill fill={AppTheme.color.sitePrimaryBlue} />
-                      ) : (
-                        <RiEyeOffLine fill={AppTheme.color.borderOne} />
-                      )}
-                    </button>
-                  ) : undefined,
-                }}
-              />
-            );
-          }}
-        />
-      </FormContainer>
+          <Controller
+            name="user_pw"
+            control={control}
+            render={({ field, fieldState: { invalid, error, isDirty } }) => {
+              return (
+                <TextInput
+                  {...field}
+                  fieldProps={{
+                    isValid: isDirty && !invalid,
+                    prefix: <RiLockUnlockLine />,
+                    validPrefix: <RiLock2Fill />,
+                    placeholder: userPwPlaceholder,
+                    error: error,
+                    inputType: showPw.pw ? 'text' : 'password',
+                    suffix: isDirty ? (
+                      <button type="button" onClick={() => showPwHandler('pw')}>
+                        {showPw.pw ? (
+                          <RiEyeFill fill={AppTheme.color.sitePrimaryBlue} />
+                        ) : (
+                          <RiEyeOffLine fill={AppTheme.color.borderOne} />
+                        )}
+                      </button>
+                    ) : undefined,
+                  }}
+                />
+              );
+            }}
+          />
 
-      <div>
+          <Controller
+            name="user_re_pw"
+            control={control}
+            render={({ field, fieldState: { invalid, error, isDirty } }) => {
+              return (
+                <TextInput
+                  {...field}
+                  fieldProps={{
+                    isValid: isDirty && !invalid,
+                    prefix: <RiLockUnlockLine />,
+                    validPrefix: <RiLock2Fill />,
+                    placeholder: userRePwPlaceholder,
+                    error: error,
+                    inputType: showPw.re_pw ? 'text' : 'password',
+                    suffix: isDirty ? (
+                      <button type="button" onClick={() => showPwHandler('re_pw')}>
+                        {showPw.re_pw ? (
+                          <RiEyeFill fill={AppTheme.color.sitePrimaryBlue} />
+                        ) : (
+                          <RiEyeOffLine fill={AppTheme.color.borderOne} />
+                        )}
+                      </button>
+                    ) : undefined,
+                  }}
+                />
+              );
+            }}
+          />
+        </FormContainer>
+      </CommonMemoContainer>
+
+      <ButtonWrapper>
         <Button style={{ margin: '0 8px' }} onClick={() => prevStep()}>
           이전
         </Button>
 
-        <Button htmlType="submit" type="default" onClick={() => nextStep()}>
+        <Button htmlType="submit" type="primary">
           다음
         </Button>
-      </div>
+      </ButtonWrapper>
     </Form>
   );
 }

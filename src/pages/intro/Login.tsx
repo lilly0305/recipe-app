@@ -81,7 +81,7 @@ interface ILogin {
 function Login({ handleOpenModal }: ILogin) {
   const [showPw, setShowPw] = useState(false);
 
-  const { handleSubmit, control } = useForm<ILoginForm>({
+  const { handleSubmit, control, setError } = useForm<ILoginForm>({
     resolver: yupResolver(yupLogin),
     mode: 'onChange',
     defaultValues: {
@@ -92,7 +92,12 @@ function Login({ handleOpenModal }: ILogin) {
   });
 
   const onSubmit: SubmitHandler<ILoginForm> = useCallback((data) => {
-    console.log(data);
+    // TODO: 로그인 기능 구현
+    if (data.user_id === 'yhk0305' && data.user_pw === 'qweqwe123') {
+      localStorage.setItem('tokens', '{access_token: ddddd, refresh_token: ccccc}');
+    } else {
+      setError('user_id', { message: '아이디 또는 비밀번호를 확인해주세요.' });
+    }
   }, []);
 
   const showPwHandler = useCallback(() => {

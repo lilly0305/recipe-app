@@ -11,11 +11,16 @@ import { yupFindAccount } from '@utils/form-validation/yupValidation';
 import { emailPlaceholder } from '@utils/form-validation/placeholder';
 
 import { FormContainer } from './FindAccount';
+import { CommonMemoContainer } from '@assets/styles/ContainerStyles';
 
 const Form = styled.form(() => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
+}));
+
+const ButtonWrapper = styled.div(() => ({
+  marginTop: '5rem',
 }));
 
 interface IEnterEmail {
@@ -47,30 +52,34 @@ function EnterEmail({ nextStep, setStepStatus }: IEnterEmail) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormContainer>
-        <Controller
-          name="email"
-          control={control}
-          render={({ field, fieldState: { isDirty, invalid, error } }) => {
-            return (
-              <TextInput
-                {...field}
-                fieldProps={{
-                  isValid: isDirty && !invalid,
-                  prefix: <RiAtLine />,
-                  validPrefix: <RiAtFill />,
-                  placeholder: emailPlaceholder,
-                  error: error,
-                }}
-              />
-            );
-          }}
-        />
-      </FormContainer>
+      <CommonMemoContainer>
+        <FormContainer>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState: { isDirty, invalid, error } }) => {
+              return (
+                <TextInput
+                  {...field}
+                  fieldProps={{
+                    isValid: isDirty && !invalid,
+                    prefix: <RiAtLine />,
+                    validPrefix: <RiAtFill />,
+                    placeholder: emailPlaceholder,
+                    error: error,
+                  }}
+                />
+              );
+            }}
+          />
+        </FormContainer>
+      </CommonMemoContainer>
 
-      <Button htmlType="submit" type="primary">
-        다음
-      </Button>
+      <ButtonWrapper>
+        <Button htmlType="submit" type="primary">
+          다음
+        </Button>
+      </ButtonWrapper>
     </Form>
   );
 }

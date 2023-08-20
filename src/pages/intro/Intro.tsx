@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { RiArrowGoBackFill } from 'react-icons/ri';
 
 import { H2, H5 } from '@assets/styles/TextStyles';
-import { CommonContainer } from '@assets/styles/CommonStyles';
+import { CommonContainer } from '@assets/styles/ContainerStyles';
 import { mq } from '@utils/media-query/mediaQuery';
 import { image } from 'theme';
 
